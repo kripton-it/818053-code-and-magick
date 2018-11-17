@@ -56,11 +56,13 @@ function renderText(ctx, text, color, x, y) {
 };
 
 function renderLabel(ctx, names, i) {
+  ctx.fillStyle = '#000';
   ctx.fillText(names[i], CLOUD_POSITION_X + 20 + (BAR_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - 30);
 };
 
 function renderTime(ctx, times, i) {
   var time = Math.round(times[i]);
+  ctx.fillStyle = '#000';
   ctx.fillText(time, CLOUD_POSITION_X + 20 + (BAR_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - 50 - STATISTIC_HEIGHT);
 };
 
@@ -86,8 +88,8 @@ window.renderStatistics = function(ctx, names, times) {
   renderText(ctx, 'Список результатов:', 'green', TEXT_POSITION_X, TEXT_POSITION_Y + LINE_HEIGHT);
 
   for (var i = 0; i < names.length; i++) {
-    calcColor(ctx, names, i);
     renderLabel(ctx, names, i);
+    calcColor(ctx, names, i);
     renderColumn(ctx, i);
     renderTime(ctx, times, i);
   }
