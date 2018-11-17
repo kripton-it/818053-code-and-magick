@@ -17,6 +17,16 @@ var BAR_GAP = 50;
 var STATISTIC_HEIGHT = 150;
 var MY_BAR_COLOR = 'rgba(255, 0, 0, 1)';
 
+function randomInteger(min, max) {
+  var rand = min - 0.5 + Math.random() * (max - min + 1);
+  rand = Math.round(rand);
+  return rand;
+}
+
+function randomAlphaCanal() {
+  return randomInteger(20, 80) / 100;
+}
+
 function renderCloud(ctx, x, y, color) {
   // прямоугольник
   ctx.fillStyle = color;
@@ -54,12 +64,9 @@ window.renderStatistics = function(ctx, names, times) {
   renderText(ctx, 'Ура!!! Вы победили!!!', 'red', TEXT_POSITION_X, TEXT_POSITION_Y);
   renderText(ctx, 'Список результатов:', 'green', TEXT_POSITION_X, TEXT_POSITION_Y + LINE_HEIGHT);
 
-
-
-
-
   for (var i = 0; i < names.length; i++) {
-    ctx.fillStyle = 'blue';
+    var barColor = 'rgba(0, 0, 255, ' + randomAlphaCanal().toString() + ')';
+    ctx.fillStyle = barColor;
     if (names[i].toLowerCase() === 'вы') {
       ctx.fillStyle = MY_BAR_COLOR;
     }
