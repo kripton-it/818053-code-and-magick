@@ -1,7 +1,13 @@
 'use strict';
 
-var CLOUD_WIDTH = 500;
-var CLOUD_HEIGHT = 200;
+var CLOUD_WIDTH = 420;
+var CLOUD_HEIGHT = 270;
+var CLOUD_POSITION_X = 100;
+var CLOUD_POSITION_Y = 10;
+var CLOUD_SHADOW_OFFSET_X = 10;
+var CLOUD_SHADOW_OFFSET_Y = 10;
+var SHADOW_POSITION_X = CLOUD_POSITION_X + CLOUD_SHADOW_OFFSET_X;
+var SHADOW_POSITION_Y = CLOUD_POSITION_Y + CLOUD_SHADOW_OFFSET_Y;
 
 function renderCloud(ctx, x, y, color) {
   ctx.fillStyle = color;
@@ -10,7 +16,7 @@ function renderCloud(ctx, x, y, color) {
 
 window.renderStatistics = function(ctx, names, times) {
   // тень
-  renderCloud(ctx, 110, 60, 'rgba(0, 0, 0, 0.3)');
+  renderCloud(ctx, SHADOW_POSITION_X, SHADOW_POSITION_Y, 'rgba(0, 0, 0, 0.7)');
   // облако
-  renderCloud(ctx, 100, 50, '#fff');
+  renderCloud(ctx, CLOUD_POSITION_X, CLOUD_POSITION_Y, '#fff');
 };
