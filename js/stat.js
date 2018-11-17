@@ -8,6 +8,10 @@ var CLOUD_SHADOW_OFFSET_X = 10;
 var CLOUD_SHADOW_OFFSET_Y = 10;
 var SHADOW_POSITION_X = CLOUD_POSITION_X + CLOUD_SHADOW_OFFSET_X;
 var SHADOW_POSITION_Y = CLOUD_POSITION_Y + CLOUD_SHADOW_OFFSET_Y;
+var FONT = '16px PT Mono';
+var TEXT_POSITION_X = 230;
+var TEXT_POSITION_Y = 30;
+var LINE_HEIGHT = 20;
 
 function renderCloud(ctx, x, y, color) {
   // прямоугольник
@@ -30,9 +34,19 @@ function renderCloud(ctx, x, y, color) {
   ctx.fill();
 };
 
+function renderText(ctx, text, color, x, y) {
+  ctx.fillStyle = color;
+  ctx.font = FONT;
+  ctx.textBaseline = 'hanging';
+  ctx.fillText(text, x, y);
+}
+
 window.renderStatistics = function(ctx, names, times) {
   // тень
   renderCloud(ctx, SHADOW_POSITION_X, SHADOW_POSITION_Y, 'rgba(0, 0, 0, 0.7)');
   // облако
   renderCloud(ctx, CLOUD_POSITION_X, CLOUD_POSITION_Y, '#fff');
+
+  renderText(ctx, 'Ура!!! Вы победили!!!', 'red', TEXT_POSITION_X, TEXT_POSITION_Y);
+  renderText(ctx, 'Список результатов:', 'green', TEXT_POSITION_X, TEXT_POSITION_Y + LINE_HEIGHT);
 };
