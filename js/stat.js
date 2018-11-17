@@ -29,7 +29,7 @@ function randomAlphaCanal() {
 
 function getMaxElement(arr) {
   if (arr.length === 0) {
-    return 'Массив пустой';
+    return null;
   }
   var maxElement = arr[0];
 
