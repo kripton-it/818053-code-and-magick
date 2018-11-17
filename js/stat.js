@@ -6,6 +6,7 @@ var CLOUD_POSITION_X = 100;
 var CLOUD_POSITION_Y = 10;
 var CLOUD_SHADOW_OFFSET_X = 10;
 var CLOUD_SHADOW_OFFSET_Y = 10;
+var CLOUD_OFFSET = 10;
 var FONT = '16px PT Mono';
 var TEXT_POSITION_X = 230;
 var TEXT_POSITION_Y = 30;
@@ -16,6 +17,7 @@ var BAR_HEIGHT = 150;
 var MY_BAR_COLOR = 'rgba(255, 0, 0, 1)';
 var DIAGRAMM_LEFT_OFFSET = (CLOUD_WIDTH - 3 * BAR_GAP - 4 * BAR_WIDTH) / 2;
 var DIAGRAMM_BOTTOM_OFFSET = 25;
+var LABEL_COLUMN_GAP = 5;
 
 function randomInteger(min, max) {
   var rand = min - 0.5 + Math.random() * (max - min + 1);
@@ -46,13 +48,13 @@ function renderShape(ctx, x, y, color) {
   ctx.fillStyle = color;
   ctx.beginPath();
   ctx.moveTo(x, y);
-  ctx.lineTo(x + CLOUD_WIDTH / 2, y + 10);
+  ctx.lineTo(x + CLOUD_WIDTH / 2, y + CLOUD_OFFSET);
   ctx.lineTo(x + CLOUD_WIDTH, y);
-  ctx.lineTo(x + CLOUD_WIDTH + 10, y + CLOUD_HEIGHT / 2);
+  ctx.lineTo(x + CLOUD_WIDTH + CLOUD_OFFSET, y + CLOUD_HEIGHT / 2);
   ctx.lineTo(x + CLOUD_WIDTH, y + CLOUD_HEIGHT);
-  ctx.lineTo(x + CLOUD_WIDTH / 2, y + CLOUD_HEIGHT - 10);
+  ctx.lineTo(x + CLOUD_WIDTH / 2, y + CLOUD_HEIGHT - CLOUD_OFFSET);
   ctx.lineTo(x, y + CLOUD_HEIGHT);
-  ctx.lineTo(x - 10, y + CLOUD_HEIGHT / 2);
+  ctx.lineTo(x - CLOUD_OFFSET, y + CLOUD_HEIGHT / 2);
   ctx.closePath();
   ctx.fill();
 }
@@ -73,19 +75,10 @@ function renderText(ctx, text, color, x, y) {
 
 function renderLabel(ctx, x, y, name, color) {
   ctx.fillStyle = color;
-  //ctx.fillText(name, x, CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET);
   ctx.fillText(name, x, y);
 }
 
-function renderTime(ctx, x, y, time, color) {
-  ctx.fillStyle = color;
-  //ctx.fillText(time, CLOUD_POSITION_X + DIAGRAMM_LEFT_OFFSET + (BAR_WIDTH + BAR_GAP) * i, top - 20);
-  ctx.fillText(time, x, y);
-}
-
 function renderColumn(ctx, x, y, height, color) {
-  //var left = CLOUD_POSITION_X + DIAGRAMM_LEFT_OFFSET + (BAR_WIDTH + BAR_GAP) * i;
-  //var top = CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET - BAR_HEIGHT * times[i] / maxTime - 5;
   ctx.fillStyle = color;
   ctx.fillRect(x, y, BAR_WIDTH, height);
 }
@@ -104,13 +97,13 @@ function renderPlayerResult(ctx, time, name, i, maxTime) {
   var labelY = CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET;
   renderLabel(ctx, labelX, labelY, name, '#000');
   var columnX = labelX;
-  var columnY = CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET - columnHeight - 5;
+  var columnY = CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET - columnHeight - LABEL_COLUMN_GAP;
   var columnColor = calcColor(ctx, name);
   renderColumn(ctx, columnX, columnY, columnHeight, columnColor);
   var timeX = CLOUD_POSITION_X + DIAGRAMM_LEFT_OFFSET + (BAR_WIDTH + BAR_GAP) * i;
-  var timeY = CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET - BAR_HEIGHT * time / maxTime - 25;
+  var timeY = CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET - columnHeight - LABEL_COLUMN_GAP - LINE_HEIGHT;
   time = Math.round(time);
-  renderTime(ctx, timeX, timeY, time, '#000');
+  renderLabel(ctx, timeX, timeY, time, '#000');
 }
 
 window.renderStatistics = function (ctx, names, times) {
