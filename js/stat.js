@@ -83,8 +83,8 @@ function renderColumn(ctx, x, y, height, color) {
   ctx.fillRect(x, y, BAR_WIDTH, height);
 }
 
-function calcColor(ctx, name) {
-  var barColor = 'rgba(0, 0, 255, ' + randomAlphaCanal().toString() + ')';
+function calcColor(name) {
+  var barColor = 'rgba(0, 0, 255, ' + randomAlphaCanal() + ')';
   if (name.toLowerCase() === 'вы') {
     barColor = MY_BAR_COLOR;
   }
@@ -98,10 +98,10 @@ function renderPlayerResult(ctx, time, name, i, maxTime) {
   renderLabel(ctx, labelX, labelY, name, '#000');
   var columnX = labelX;
   var columnY = CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET - columnHeight - LABEL_COLUMN_GAP;
-  var columnColor = calcColor(ctx, name);
+  var columnColor = calcColor(name);
   renderColumn(ctx, columnX, columnY, columnHeight, columnColor);
-  var timeX = CLOUD_POSITION_X + DIAGRAMM_LEFT_OFFSET + (BAR_WIDTH + BAR_GAP) * i;
-  var timeY = CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET - columnHeight - LABEL_COLUMN_GAP - LINE_HEIGHT;
+  var timeX = labelX;
+  var timeY = columnY - LINE_HEIGHT;
   time = Math.round(time);
   renderLabel(ctx, timeX, timeY, time, '#000');
 }
