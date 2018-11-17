@@ -71,30 +71,46 @@ function renderText(ctx, text, color, x, y) {
   ctx.fillText(text, x, y);
 }
 
-function renderLabel(ctx, names, i) {
-  ctx.fillStyle = '#000';
-  ctx.fillText(names[i], CLOUD_POSITION_X + DIAGRAMM_LEFT_OFFSET + (BAR_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET);
+function renderLabel(ctx, x, y, name, color) {
+  ctx.fillStyle = color;
+  //ctx.fillText(name, x, CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET);
+  ctx.fillText(name, x, y);
 }
 
-function renderTime(ctx, times, i, top) {
-  var time = Math.round(times[i]);
-  ctx.fillStyle = '#000';
-  ctx.fillText(time, CLOUD_POSITION_X + DIAGRAMM_LEFT_OFFSET + (BAR_WIDTH + BAR_GAP) * i, top - 20);
+function renderTime(ctx, x, y, time, color) {
+  ctx.fillStyle = color;
+  //ctx.fillText(time, CLOUD_POSITION_X + DIAGRAMM_LEFT_OFFSET + (BAR_WIDTH + BAR_GAP) * i, top - 20);
+  ctx.fillText(time, x, y);
 }
 
-function renderColumn(ctx, times, i, maxTime) {
-  var left = CLOUD_POSITION_X + DIAGRAMM_LEFT_OFFSET + (BAR_WIDTH + BAR_GAP) * i;
-  var top = CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET - BAR_HEIGHT * times[i] / maxTime - 5;
-  ctx.fillRect(left, top, BAR_WIDTH, BAR_HEIGHT * times[i] / maxTime);
-  return top;
+function renderColumn(ctx, x, y, height, color) {
+  //var left = CLOUD_POSITION_X + DIAGRAMM_LEFT_OFFSET + (BAR_WIDTH + BAR_GAP) * i;
+  //var top = CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET - BAR_HEIGHT * times[i] / maxTime - 5;
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, BAR_WIDTH, height);
 }
 
-function calcColor(ctx, names, i) {
+function calcColor(ctx, name) {
   var barColor = 'rgba(0, 0, 255, ' + randomAlphaCanal().toString() + ')';
-  ctx.fillStyle = barColor;
-  if (names[i].toLowerCase() === 'вы') {
-    ctx.fillStyle = MY_BAR_COLOR;
+  if (name.toLowerCase() === 'вы') {
+    barColor = MY_BAR_COLOR;
   }
+  return barColor;
+}
+
+function renderPlayerResult(ctx, time, name, i, maxTime) {
+  var columnHeight = BAR_HEIGHT * time / maxTime;
+  var labelX = CLOUD_POSITION_X + DIAGRAMM_LEFT_OFFSET + (BAR_WIDTH + BAR_GAP) * i;
+  var labelY = CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET;
+  renderLabel(ctx, labelX, labelY, name, '#000');
+  var columnX = labelX;
+  var columnY = CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET - columnHeight - 5;
+  var columnColor = calcColor(ctx, name);
+  renderColumn(ctx, columnX, columnY, columnHeight, columnColor);
+  var timeX = CLOUD_POSITION_X + DIAGRAMM_LEFT_OFFSET + (BAR_WIDTH + BAR_GAP) * i;
+  var timeY = CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET - BAR_HEIGHT * time / maxTime - 25;
+  time = Math.round(time);
+  renderTime(ctx, timeX, timeY, time, '#000');
 }
 
 window.renderStatistics = function (ctx, names, times) {
@@ -105,9 +121,6 @@ window.renderStatistics = function (ctx, names, times) {
   var maxTime = getMaxElement(times);
 
   for (var i = 0; i < names.length; i++) {
-    renderLabel(ctx, names, i);
-    calcColor(ctx, names, i);
-    var barTop = renderColumn(ctx, times, i, maxTime);
-    renderTime(ctx, times, i, barTop);
+    renderPlayerResult(ctx, times[i], names[i], i, maxTime);
   }
 };
