@@ -59,11 +59,11 @@ function renderShape(ctx, x, y, color) {
   ctx.fill();
 }
 
-function renderCloud(ctx) {
-  var shadowX = CLOUD_POSITION_X + CLOUD_SHADOW_OFFSET_X;
-  var shadowY = CLOUD_POSITION_Y + CLOUD_SHADOW_OFFSET_Y;
+function renderCloud(ctx, x, y) {
+  var shadowX = x + CLOUD_SHADOW_OFFSET_X;
+  var shadowY = y + CLOUD_SHADOW_OFFSET_Y;
   renderShape(ctx, shadowX, shadowY, 'rgba(0, 0, 0, 0.7)');
-  renderShape(ctx, CLOUD_POSITION_X, CLOUD_POSITION_Y, '#fff');
+  renderShape(ctx, x, y, '#fff');
 }
 
 function renderText(ctx, text, color, x, y) {
@@ -107,7 +107,7 @@ function renderPlayerResult(ctx, time, name, i, maxTime) {
 }
 
 window.renderStatistics = function (ctx, names, times) {
-  renderCloud(ctx);
+  renderCloud(ctx, CLOUD_POSITION_X, CLOUD_POSITION_Y);
   renderText(ctx, 'Ура!!! Вы победили!!!', 'red', TEXT_POSITION_X, TEXT_POSITION_Y);
   renderText(ctx, 'Список результатов:', 'green', TEXT_POSITION_X, TEXT_POSITION_Y + LINE_HEIGHT);
 
