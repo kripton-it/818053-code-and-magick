@@ -12,6 +12,10 @@ var FONT = '16px PT Mono';
 var TEXT_POSITION_X = 230;
 var TEXT_POSITION_Y = 30;
 var LINE_HEIGHT = 20;
+var BAR_WIDTH = 40;
+var BAR_GAP = 50;
+var STATISTIC_HEIGHT = 150;
+var MY_BAR_COLOR = 'rgba(255, 0, 0, 1)';
 
 function renderCloud(ctx, x, y, color) {
   // прямоугольник
@@ -49,4 +53,15 @@ window.renderStatistics = function(ctx, names, times) {
 
   renderText(ctx, 'Ура!!! Вы победили!!!', 'red', TEXT_POSITION_X, TEXT_POSITION_Y);
   renderText(ctx, 'Список результатов:', 'green', TEXT_POSITION_X, TEXT_POSITION_Y + LINE_HEIGHT);
+
+  ctx.fillStyle = MY_BAR_COLOR;
+  ctx.fillText('Вы', CLOUD_POSITION_X + 20, CLOUD_HEIGHT - 30);
+  ctx.fillRect(CLOUD_POSITION_X + 20, CLOUD_HEIGHT - 40 - STATISTIC_HEIGHT, BAR_WIDTH, STATISTIC_HEIGHT);
+
+  ctx.fillStyle = 'blue';
+  ctx.fillText('Иван', CLOUD_POSITION_X + 20 + BAR_WIDTH + BAR_GAP, CLOUD_HEIGHT - 30);
+  ctx.fillRect(CLOUD_POSITION_X + 20 + BAR_WIDTH + BAR_GAP, CLOUD_HEIGHT - 40 - STATISTIC_HEIGHT, BAR_WIDTH, STATISTIC_HEIGHT);
+
+  ctx.fillText('Юлия', CLOUD_POSITION_X + 20 + 2 * BAR_WIDTH + 2 * BAR_GAP, CLOUD_HEIGHT - 30);
+  ctx.fillRect(CLOUD_POSITION_X + 20 + 2 * BAR_WIDTH + 2 * BAR_GAP, CLOUD_HEIGHT - 40 - STATISTIC_HEIGHT, BAR_WIDTH, STATISTIC_HEIGHT);
 };
