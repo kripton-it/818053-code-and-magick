@@ -6,8 +6,6 @@ var CLOUD_POSITION_X = 100;
 var CLOUD_POSITION_Y = 10;
 var CLOUD_SHADOW_OFFSET_X = 10;
 var CLOUD_SHADOW_OFFSET_Y = 10;
-var SHADOW_POSITION_X = CLOUD_POSITION_X + CLOUD_SHADOW_OFFSET_X;
-var SHADOW_POSITION_Y = CLOUD_POSITION_Y + CLOUD_SHADOW_OFFSET_Y;
 var FONT = '16px PT Mono';
 var TEXT_POSITION_X = 230;
 var TEXT_POSITION_Y = 30;
@@ -44,7 +42,7 @@ function getMaxElement(arr) {
   return maxElement;
 }
 
-function renderCloud(ctx, x, y, color) {
+function renderShape(ctx, x, y, color) {
   ctx.fillStyle = color;
   ctx.beginPath();
   ctx.moveTo(x, y);
@@ -57,6 +55,13 @@ function renderCloud(ctx, x, y, color) {
   ctx.lineTo(x - 10, y + CLOUD_HEIGHT / 2);
   ctx.closePath();
   ctx.fill();
+}
+
+function renderCloud(ctx) {
+  var shadowX = CLOUD_POSITION_X + CLOUD_SHADOW_OFFSET_X;
+  var shadowY = CLOUD_POSITION_Y + CLOUD_SHADOW_OFFSET_Y;
+  renderShape(ctx, shadowX, shadowY, 'rgba(0, 0, 0, 0.7)');
+  renderShape(ctx, CLOUD_POSITION_X, CLOUD_POSITION_Y, '#fff');
 }
 
 function renderText(ctx, text, color, x, y) {
@@ -93,9 +98,7 @@ function calcColor(ctx, names, i) {
 }
 
 window.renderStatistics = function (ctx, names, times) {
-  renderCloud(ctx, SHADOW_POSITION_X, SHADOW_POSITION_Y, 'rgba(0, 0, 0, 0.7)');
-  renderCloud(ctx, CLOUD_POSITION_X, CLOUD_POSITION_Y, '#fff');
-
+  renderCloud(ctx);
   renderText(ctx, 'Ура!!! Вы победили!!!', 'red', TEXT_POSITION_X, TEXT_POSITION_Y);
   renderText(ctx, 'Список результатов:', 'green', TEXT_POSITION_X, TEXT_POSITION_Y + LINE_HEIGHT);
 
