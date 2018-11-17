@@ -93,17 +93,15 @@ function calcColor(name) {
 
 function renderPlayerResult(ctx, time, name, i, maxTime) {
   var columnHeight = BAR_HEIGHT * time / maxTime;
-  var labelX = CLOUD_POSITION_X + DIAGRAMM_LEFT_OFFSET + (BAR_WIDTH + BAR_GAP) * i;
+  var commonX = CLOUD_POSITION_X + DIAGRAMM_LEFT_OFFSET + (BAR_WIDTH + BAR_GAP) * i;
   var labelY = CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET;
-  renderLabel(ctx, labelX, labelY, name, '#000');
-  var columnX = labelX;
+  renderLabel(ctx, commonX, labelY, name, '#000');
   var columnY = CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET - columnHeight - LABEL_COLUMN_GAP;
   var columnColor = calcColor(name);
-  renderColumn(ctx, columnX, columnY, columnHeight, columnColor);
-  var timeX = labelX;
+  renderColumn(ctx, commonX, columnY, columnHeight, columnColor);
   var timeY = columnY - LINE_HEIGHT;
   time = Math.round(time);
-  renderLabel(ctx, timeX, timeY, time, '#000');
+  renderLabel(ctx, commonX, timeY, time, '#000');
 }
 
 window.renderStatistics = function (ctx, names, times) {
