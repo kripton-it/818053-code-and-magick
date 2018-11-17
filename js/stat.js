@@ -66,7 +66,7 @@ function renderCloud(ctx, x, y) {
   renderShape(ctx, x, y, '#fff');
 }
 
-function renderText(ctx, text, color, x, y) {
+function renderText(ctx, x, y, text, color) {
   ctx.fillStyle = color;
   ctx.font = FONT;
   ctx.textBaseline = 'hanging';
@@ -108,8 +108,8 @@ function renderPlayerResult(ctx, time, name, i, maxTime) {
 
 window.renderStatistics = function (ctx, names, times) {
   renderCloud(ctx, CLOUD_POSITION_X, CLOUD_POSITION_Y);
-  renderText(ctx, 'Ура!!! Вы победили!!!', 'red', TEXT_POSITION_X, TEXT_POSITION_Y);
-  renderText(ctx, 'Список результатов:', 'green', TEXT_POSITION_X, TEXT_POSITION_Y + LINE_HEIGHT);
+  renderText(ctx, TEXT_POSITION_X, TEXT_POSITION_Y, 'Ура!!! Вы победили!!!', 'red');
+  renderText(ctx, TEXT_POSITION_X, TEXT_POSITION_Y + LINE_HEIGHT, 'Список результатов:', 'green');
 
   var maxTime = getMaxElement(times);
 
