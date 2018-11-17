@@ -14,8 +14,10 @@ var TEXT_POSITION_Y = 30;
 var LINE_HEIGHT = 20;
 var BAR_WIDTH = 40;
 var BAR_GAP = 50;
-var STATISTIC_HEIGHT = 150;
+var BAR_HEIGHT = 150;
 var MY_BAR_COLOR = 'rgba(255, 0, 0, 1)';
+var DIAGRAMM_LEFT_OFFSET = (CLOUD_WIDTH - 3 * BAR_GAP - 4 * BAR_WIDTH) / 2;
+var DIAGRAMM_BOTTOM_OFFSET = 25;
 
 function randomInteger(min, max) {
   var rand = min - 0.5 + Math.random() * (max - min + 1);
@@ -24,24 +26,33 @@ function randomInteger(min, max) {
 };
 
 function randomAlphaCanal() {
-  return randomInteger(20, 80) / 100;
+  return randomInteger(20, 100) / 100;
+};
+
+var getMaxElement = function(arr) {
+  if (arr.length === 0) {
+    return 'Массив пустой';
+  }
+  var maxElement = arr[0];
+
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i] > maxElement) {
+      maxElement = arr[i];
+    }
+  }
+
+  return maxElement;
 };
 
 function renderCloud(ctx, x, y, color) {
-  // прямоугольник
   ctx.fillStyle = color;
-  // ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
   ctx.beginPath();
-  // левый верхний угол
   ctx.moveTo(x, y);
   ctx.lineTo(x + CLOUD_WIDTH / 2, y + 10);
-  // правый верхний угол
   ctx.lineTo(x + CLOUD_WIDTH, y);
   ctx.lineTo(x + CLOUD_WIDTH + 10, y + CLOUD_HEIGHT / 2);
-  // правый нижний угол
   ctx.lineTo(x + CLOUD_WIDTH, y + CLOUD_HEIGHT);
   ctx.lineTo(x + CLOUD_WIDTH / 2, y + CLOUD_HEIGHT - 10);
-  // левый нижний угол
   ctx.lineTo(x, y + CLOUD_HEIGHT);
   ctx.lineTo(x - 10, y + CLOUD_HEIGHT / 2);
   ctx.closePath();
@@ -57,17 +68,20 @@ function renderText(ctx, text, color, x, y) {
 
 function renderLabel(ctx, names, i) {
   ctx.fillStyle = '#000';
-  ctx.fillText(names[i], CLOUD_POSITION_X + 20 + (BAR_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - 30);
+  ctx.fillText(names[i], CLOUD_POSITION_X + DIAGRAMM_LEFT_OFFSET + (BAR_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET);
 };
 
-function renderTime(ctx, times, i) {
+function renderTime(ctx, times, i, top) {
   var time = Math.round(times[i]);
   ctx.fillStyle = '#000';
-  ctx.fillText(time, CLOUD_POSITION_X + 20 + (BAR_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - 50 - STATISTIC_HEIGHT);
+  ctx.fillText(time, CLOUD_POSITION_X + DIAGRAMM_LEFT_OFFSET + (BAR_WIDTH + BAR_GAP) * i, top - 20);
 };
 
-function renderColumn(ctx, i) {
-  ctx.fillRect(CLOUD_POSITION_X + 20 + (BAR_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - 35 - STATISTIC_HEIGHT, BAR_WIDTH, STATISTIC_HEIGHT);
+function renderColumn(ctx, times, i, maxTime) {
+  var left = CLOUD_POSITION_X + DIAGRAMM_LEFT_OFFSET + (BAR_WIDTH + BAR_GAP) * i;
+  var top = CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET - BAR_HEIGHT * times[i] / maxTime - 5;
+  ctx.fillRect(left, top, BAR_WIDTH, BAR_HEIGHT * times[i] / maxTime);
+  return top;
 };
 
 function calcColor(ctx, names, i) {
@@ -79,18 +93,18 @@ function calcColor(ctx, names, i) {
 };
 
 window.renderStatistics = function(ctx, names, times) {
-  // тень
   renderCloud(ctx, SHADOW_POSITION_X, SHADOW_POSITION_Y, 'rgba(0, 0, 0, 0.7)');
-  // облако
   renderCloud(ctx, CLOUD_POSITION_X, CLOUD_POSITION_Y, '#fff');
 
   renderText(ctx, 'Ура!!! Вы победили!!!', 'red', TEXT_POSITION_X, TEXT_POSITION_Y);
   renderText(ctx, 'Список результатов:', 'green', TEXT_POSITION_X, TEXT_POSITION_Y + LINE_HEIGHT);
 
+  var maxTime = getMaxElement(times);
+
   for (var i = 0; i < names.length; i++) {
     renderLabel(ctx, names, i);
     calcColor(ctx, names, i);
-    renderColumn(ctx, i);
-    renderTime(ctx, times, i);
+    var barTop = renderColumn(ctx, times, i, maxTime);
+    renderTime(ctx, times, i, barTop);
   }
 };
