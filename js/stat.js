@@ -23,13 +23,13 @@ function randomInteger(min, max) {
   var rand = min - 0.5 + Math.random() * (max - min + 1);
   rand = Math.round(rand);
   return rand;
-};
+}
 
 function randomAlphaCanal() {
   return randomInteger(20, 100) / 100;
-};
+}
 
-var getMaxElement = function(arr) {
+function getMaxElement(arr) {
   if (arr.length === 0) {
     return 'Массив пустой';
   }
@@ -42,7 +42,7 @@ var getMaxElement = function(arr) {
   }
 
   return maxElement;
-};
+}
 
 function renderCloud(ctx, x, y, color) {
   ctx.fillStyle = color;
@@ -57,32 +57,32 @@ function renderCloud(ctx, x, y, color) {
   ctx.lineTo(x - 10, y + CLOUD_HEIGHT / 2);
   ctx.closePath();
   ctx.fill();
-};
+}
 
 function renderText(ctx, text, color, x, y) {
   ctx.fillStyle = color;
   ctx.font = FONT;
   ctx.textBaseline = 'hanging';
   ctx.fillText(text, x, y);
-};
+}
 
 function renderLabel(ctx, names, i) {
   ctx.fillStyle = '#000';
   ctx.fillText(names[i], CLOUD_POSITION_X + DIAGRAMM_LEFT_OFFSET + (BAR_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET);
-};
+}
 
 function renderTime(ctx, times, i, top) {
   var time = Math.round(times[i]);
   ctx.fillStyle = '#000';
   ctx.fillText(time, CLOUD_POSITION_X + DIAGRAMM_LEFT_OFFSET + (BAR_WIDTH + BAR_GAP) * i, top - 20);
-};
+}
 
 function renderColumn(ctx, times, i, maxTime) {
   var left = CLOUD_POSITION_X + DIAGRAMM_LEFT_OFFSET + (BAR_WIDTH + BAR_GAP) * i;
   var top = CLOUD_HEIGHT - DIAGRAMM_BOTTOM_OFFSET - BAR_HEIGHT * times[i] / maxTime - 5;
   ctx.fillRect(left, top, BAR_WIDTH, BAR_HEIGHT * times[i] / maxTime);
   return top;
-};
+}
 
 function calcColor(ctx, names, i) {
   var barColor = 'rgba(0, 0, 255, ' + randomAlphaCanal().toString() + ')';
@@ -90,9 +90,9 @@ function calcColor(ctx, names, i) {
   if (names[i].toLowerCase() === 'вы') {
     ctx.fillStyle = MY_BAR_COLOR;
   }
-};
+}
 
-window.renderStatistics = function(ctx, names, times) {
+window.renderStatistics = function (ctx, names, times) {
   renderCloud(ctx, SHADOW_POSITION_X, SHADOW_POSITION_Y, 'rgba(0, 0, 0, 0.7)');
   renderCloud(ctx, CLOUD_POSITION_X, CLOUD_POSITION_Y, '#fff');
 
