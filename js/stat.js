@@ -63,6 +63,14 @@ function renderColumn(ctx, i) {
   ctx.fillRect(CLOUD_POSITION_X + 20 + (BAR_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - 40 - STATISTIC_HEIGHT, BAR_WIDTH, STATISTIC_HEIGHT);
 };
 
+function calcColor(ctx, names, i) {
+  var barColor = 'rgba(0, 0, 255, ' + randomAlphaCanal().toString() + ')';
+  ctx.fillStyle = barColor;
+  if (names[i].toLowerCase() === 'вы') {
+    ctx.fillStyle = MY_BAR_COLOR;
+  }
+};
+
 window.renderStatistics = function(ctx, names, times) {
   // тень
   renderCloud(ctx, SHADOW_POSITION_X, SHADOW_POSITION_Y, 'rgba(0, 0, 0, 0.7)');
@@ -73,11 +81,7 @@ window.renderStatistics = function(ctx, names, times) {
   renderText(ctx, 'Список результатов:', 'green', TEXT_POSITION_X, TEXT_POSITION_Y + LINE_HEIGHT);
 
   for (var i = 0; i < names.length; i++) {
-    var barColor = 'rgba(0, 0, 255, ' + randomAlphaCanal().toString() + ')';
-    ctx.fillStyle = barColor;
-    if (names[i].toLowerCase() === 'вы') {
-      ctx.fillStyle = MY_BAR_COLOR;
-    }
+    calcColor(ctx, names, i);
     renderLabel(ctx, names, i);
     renderColumn(ctx, i);
   }
