@@ -59,8 +59,13 @@ function renderLabel(ctx, names, i) {
   ctx.fillText(names[i], CLOUD_POSITION_X + 20 + (BAR_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - 30);
 };
 
+function renderTime(ctx, times, i) {
+  var time = Math.round(times[i]);
+  ctx.fillText(time, CLOUD_POSITION_X + 20 + (BAR_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - 50 - STATISTIC_HEIGHT);
+};
+
 function renderColumn(ctx, i) {
-  ctx.fillRect(CLOUD_POSITION_X + 20 + (BAR_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - 40 - STATISTIC_HEIGHT, BAR_WIDTH, STATISTIC_HEIGHT);
+  ctx.fillRect(CLOUD_POSITION_X + 20 + (BAR_WIDTH + BAR_GAP) * i, CLOUD_HEIGHT - 35 - STATISTIC_HEIGHT, BAR_WIDTH, STATISTIC_HEIGHT);
 };
 
 function calcColor(ctx, names, i) {
@@ -84,5 +89,6 @@ window.renderStatistics = function(ctx, names, times) {
     calcColor(ctx, names, i);
     renderLabel(ctx, names, i);
     renderColumn(ctx, i);
+    renderTime(ctx, times, i);
   }
 };
