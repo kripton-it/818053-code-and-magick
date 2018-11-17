@@ -10,8 +10,24 @@ var SHADOW_POSITION_X = CLOUD_POSITION_X + CLOUD_SHADOW_OFFSET_X;
 var SHADOW_POSITION_Y = CLOUD_POSITION_Y + CLOUD_SHADOW_OFFSET_Y;
 
 function renderCloud(ctx, x, y, color) {
+  // прямоугольник
   ctx.fillStyle = color;
-  ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
+  // ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
+  ctx.beginPath();
+  // левый верхний угол
+  ctx.moveTo(x, y);
+  ctx.lineTo(x + CLOUD_WIDTH / 2, y + 10);
+  // правый верхний угол
+  ctx.lineTo(x + CLOUD_WIDTH, y);
+  ctx.lineTo(x + CLOUD_WIDTH + 10, y + CLOUD_HEIGHT / 2);
+  // правый нижний угол
+  ctx.lineTo(x + CLOUD_WIDTH, y + CLOUD_HEIGHT);
+  ctx.lineTo(x + CLOUD_WIDTH / 2, y + CLOUD_HEIGHT - 10);
+  // левый нижний угол
+  ctx.lineTo(x, y + CLOUD_HEIGHT);
+  ctx.lineTo(x - 10, y + CLOUD_HEIGHT / 2);
+  ctx.closePath();
+  ctx.fill();
 };
 
 window.renderStatistics = function(ctx, names, times) {
