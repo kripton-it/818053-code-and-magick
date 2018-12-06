@@ -122,52 +122,43 @@ var fireballColorInput = setup.querySelector('input[name="fireball-color"]');
 
 function openSetup() {
   setup.classList.remove('hidden');
-  document.addEventListener('keydown', documentEscPressHandler);
 }
 
 function closeSetup() {
   setup.classList.add('hidden');
-  document.removeEventListener('keydown', documentEscPressHandler);
 }
 
 function documentEscPressHandler(evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     closeSetup();
+    document.removeEventListener('keydown', documentEscPressHandler);
   }
+}
+
+function getNewColor(oldColor, colors) {
+  var correctColors = colors.filter(function (color) {
+    return color !== oldColor;
+  });
+  return getRandomElement(correctColors);
 }
 
 function wizardCoatClickHandler() {
   var oldColor = wizardCoat.style.fill;
-  var newColor = getRandomElement(COAT_COLORS);
-
-  while (newColor === oldColor) {
-    newColor = getRandomElement(COAT_COLORS);
-  }
-
+  var newColor = getNewColor(oldColor, COAT_COLORS);
   wizardCoat.style.fill = newColor;
   coatColorInput.value = newColor;
 }
 
 function wizardEyesClickHandler() {
   var oldColor = wizardEyes.style.fill;
-  var newColor = getRandomElement(EYES_COLORS);
-
-  while (newColor === oldColor) {
-    newColor = getRandomElement(EYES_COLORS);
-  }
-
+  var newColor = getNewColor(oldColor, EYES_COLORS);
   wizardEyes.style.fill = newColor;
   eyesColorInput.value = newColor;
 }
 
 function wizardFireballClickHandler() {
   var oldColor = wizardFireball.style.backgroundColor;
-  var newColor = getRandomElement(FIREBALL_COLORS);
-
-  while (newColor === oldColor) {
-    newColor = getRandomElement(FIREBALL_COLORS);
-  }
-
+  var newColor = getNewColor(oldColor, FIREBALL_COLORS);
   wizardFireball.style.backgroundColor = newColor;
   fireballColorInput.value = newColor;
 }
@@ -176,21 +167,25 @@ document.addEventListener('keydown', documentEscPressHandler);
 
 setupOpen.addEventListener('click', function () {
   openSetup();
+  document.addEventListener('keydown', documentEscPressHandler);
 });
 
 setupOpen.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     openSetup();
+    document.addEventListener('keydown', documentEscPressHandler);
   }
 });
 
 setupClose.addEventListener('click', function () {
   closeSetup();
+  document.removeEventListener('keydown', documentEscPressHandler);
 });
 
 setupClose.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     closeSetup();
+    document.removeEventListener('keydown', documentEscPressHandler);
   }
 });
 
@@ -216,11 +211,8 @@ userNameInput.addEventListener('invalid', function () {
 
 userNameInput.addEventListener('input', function (evt) {
   evt.preventDefault();
-  if (userNameInput.value.length < 2) {
-    userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
-  } else {
-    userNameInput.setCustomValidity('');
-  }
+  var errorMessage = userNameInput.value.length < 2 ? 'Имя должно состоять минимум из 2-х символов' : '';
+  userNameInput.setCustomValidity(errorMessage);
 });
 
 wizardCoat.addEventListener('click', wizardCoatClickHandler);
