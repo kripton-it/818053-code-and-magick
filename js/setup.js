@@ -38,6 +38,13 @@ var EYES_COLORS = [
   'yellow',
   'green'
 ];
+var FIREBALL_COLORS = [
+  '#ee4830',
+  '#30a8ee',
+  '#5ce6c0',
+  '#e848d5',
+  '#e6e848'
+];
 
 var setup = document.querySelector('.setup');
 var wizardsContainer = document.querySelector('.setup-similar-list');
@@ -106,6 +113,12 @@ var ENTER_KEYCODE = 13;
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = setup.querySelector('.setup-close');
 var userNameInput = setup.querySelector('.setup-user-name');
+var wizardCoat = setup.querySelector('.setup-wizard .wizard-coat');
+var wizardEyes = setup.querySelector('.setup-wizard .wizard-eyes');
+var wizardFireball = setup.querySelector('.setup-fireball-wrap');
+var coatColorInput = setup.querySelector('input[name="coat-color"]');
+var eyesColorInput = setup.querySelector('input[name="eyes-color"]');
+var fireballColorInput = setup.querySelector('input[name="fireball-color"]');
 
 function openSetup() {
   setup.classList.remove('hidden');
@@ -121,6 +134,42 @@ function documentEscPressHandler(evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     closeSetup();
   }
+}
+
+function wizardCoatClickHandler() {
+  var oldColor = wizardCoat.style.fill;
+  var newColor = getRandomElement(COAT_COLORS);
+
+  while (newColor === oldColor) {
+    newColor = getRandomElement(COAT_COLORS);
+  }
+
+  wizardCoat.style.fill = newColor;
+  coatColorInput.value = newColor;
+}
+
+function wizardEyesClickHandler() {
+  var oldColor = wizardEyes.style.fill;
+  var newColor = getRandomElement(EYES_COLORS);
+
+  while (newColor === oldColor) {
+    newColor = getRandomElement(EYES_COLORS);
+  }
+
+  wizardEyes.style.fill = newColor;
+  eyesColorInput.value = newColor;
+}
+
+function wizardFireballClickHandler() {
+  var oldColor = wizardFireball.style.backgroundColor;
+  var newColor = getRandomElement(FIREBALL_COLORS);
+
+  while (newColor === oldColor) {
+    newColor = getRandomElement(FIREBALL_COLORS);
+  }
+
+  wizardFireball.style.backgroundColor = newColor;
+  fireballColorInput.value = newColor;
 }
 
 document.addEventListener('keydown', documentEscPressHandler);
@@ -174,3 +223,6 @@ userNameInput.addEventListener('input', function (evt) {
   }
 });
 
+wizardCoat.addEventListener('click', wizardCoatClickHandler);
+wizardEyes.addEventListener('click', wizardEyesClickHandler);
+wizardFireball.addEventListener('click', wizardFireballClickHandler);
