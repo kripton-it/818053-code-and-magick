@@ -1,5 +1,7 @@
 'use strict';
 
+// #12 Учебный проект: нас орда
+
 var NUMBER_OF_OBJECTS = 4;
 var NAMES = [
   'Иван',
@@ -95,3 +97,58 @@ setup.classList.remove('hidden');
 var data = generateData();
 renderWizards(data);
 similarWizards.classList.remove('hidden');
+
+// #15 Учебный проект: одеть Надежду
+
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
+var setupOpen = document.querySelector('.setup-open');
+var setupClose = setup.querySelector('.setup-close');
+var userNameInput = setup.querySelector('.setup-user-name');
+
+function openSetup() {
+  setup.classList.remove('hidden');
+  document.addEventListener('keydown', documentEscPressHandler);
+}
+
+function closeSetup() {
+  setup.classList.add('hidden');
+  document.removeEventListener('keydown', documentEscPressHandler);
+}
+
+function documentEscPressHandler(evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closeSetup();
+  }
+}
+
+document.addEventListener('keydown', documentEscPressHandler);
+
+setupOpen.addEventListener('click', function () {
+  openSetup();
+});
+
+setupOpen.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    openSetup();
+  }
+});
+
+setupClose.addEventListener('click', function () {
+  closeSetup();
+});
+
+setupClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closeSetup();
+  }
+});
+
+userNameInput.addEventListener('focus', function () {
+  document.removeEventListener('keydown', documentEscPressHandler);
+});
+
+userNameInput.addEventListener('blur', function () {
+  document.addEventListener('keydown', documentEscPressHandler);
+});
