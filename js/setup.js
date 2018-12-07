@@ -50,6 +50,10 @@ var setup = document.querySelector('.setup');
 var wizardsContainer = document.querySelector('.setup-similar-list');
 var wizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 var similarWizards = document.querySelector('.setup-similar');
+var setupStartPosition = {
+  x: setup.style.left,
+  y: setup.style.top
+};
 
 function getRandomInteger(min, max) {
   var rand = min - 0.5 + Math.random() * (max - min + 1);
@@ -121,6 +125,8 @@ var eyesColorInput = setup.querySelector('input[name="eyes-color"]');
 var fireballColorInput = setup.querySelector('input[name="fireball-color"]');
 
 function openSetup() {
+  setup.style.left = setupStartPosition.x;
+  setup.style.top = setupStartPosition.y;
   setup.classList.remove('hidden');
 }
 
