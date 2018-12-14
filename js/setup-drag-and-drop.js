@@ -31,7 +31,7 @@
       y: evt.clientY - startCoords.y
     };
 
-    if ((shift.x ^ 2 + shift.y ^ 2) > (DRAG_LIMIT ^ 2)) {
+    if (Math.pow(shift.x, 2) + Math.pow(shift.y, 2) > Math.pow(DRAG_LIMIT, 2)) {
       dragged = true;
     }
 
@@ -57,8 +57,4 @@
     document.addEventListener('mousemove', documentMouseMoveHandler);
     document.addEventListener('mouseup', documentMouseUpHandler);
   });
-
-  window.dialog = {
-
-  };
 })();
