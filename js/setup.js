@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var SIMILAR_WIZARDS_NUMBER = 4;
   var setup = document.querySelector('.setup');
   var wizardsContainer = document.querySelector('.setup-similar-list');
   var setupStartPosition = {
@@ -11,7 +12,15 @@
   var setupClose = setup.querySelector('.setup-close');
   var userNameInput = setup.querySelector('.setup-user-name');
 
-  renderWizards(window.data.generate());
+  window.backend.load(function (array) {
+    renderWizards(array);
+  }, function (errorMessage) {
+    errorHandler(errorMessage);
+  });
+
+  window.validation.setFormSubmitCallback(function (errorMessage) {
+    errorHandler(errorMessage);
+  });
 
   document.addEventListener('keydown', documentEscPressHandler);
 
@@ -47,9 +56,26 @@
     document.addEventListener('keydown', documentEscPressHandler);
   });
 
+  function errorHandler(errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; padding: 20px; text-align: center; background-color: red;';
+    node.style.position = 'fixed';
+    node.style.left = 0;
+    node.style.top = '50%';
+    node.style.transform = 'translateY(-50%)';
+    node.style.right = 0;
+    node.style.fontSize = '50px';
+
+    node.textContent = errorMessage;
+    document.body.appendChild(node);
+    setTimeout(function () {
+      node.remove();
+    }, 5000);
+  }
+
   function renderWizards(data) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < data.length; i++) {
+    for (var i = 0; i < SIMILAR_WIZARDS_NUMBER; i++) {
       var newWizard = window.similar.create(data[i]);
       fragment.appendChild(newWizard);
     }

@@ -3,6 +3,8 @@
 (function () {
   var setup = document.querySelector('.setup');
   var userNameInput = setup.querySelector('.setup-user-name');
+  var form = setup.querySelector('.setup-wizard-form');
+  var formSubmitCallback = null;
 
   userNameInput.addEventListener('invalid', function () {
     if (userNameInput.validity.tooShort) {
@@ -21,4 +23,23 @@
     var errorMessage = userNameInput.value.length < 2 ? 'Имя должно состоять минимум из 2-х символов' : '';
     userNameInput.setCustomValidity(errorMessage);
   });
+
+  form.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(form), function () {
+      // alert('Данные отправлены');
+      setup.classList.add('hidden');
+    }, function (errorMessage) {
+      // alert('Данные не отправлены');
+      formSubmitCallback(errorMessage);
+    });
+    evt.preventDefault();
+  });
+
+  function setFormSubmitCallback(callback) {
+    formSubmitCallback = callback;
+  }
+
+  window.validation = {
+    setFormSubmitCallback: setFormSubmitCallback
+  };
 })();

@@ -14,8 +14,8 @@
     var wizardCoat = wizard.querySelector('.wizard-coat');
     var wizardEyes = wizard.querySelector('.wizard-eyes');
     wizardLabel.textContent = example.name;
-    wizardCoat.style.fill = example.coatColor;
-    wizardEyes.style.fill = example.eyesColor;
+    wizardCoat.style.fill = example.colorCoat;
+    wizardEyes.style.fill = example.colorEyes;
 
     return wizard;
   }
